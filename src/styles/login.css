@@ -1,0 +1,31 @@
+form{
+    width: auto;
+    max-width: 70%;
+    margin: 0 auto;
+    background-color: var(--primary-color);
+}
+
+.inputPlaceholder{
+    position: relative;
+    display: grid;
+    grid-auto-flow: row;
+    width: 75%;
+    margin-inline: auto;
+    margin-top: 2.5rem;
+    padding-bottom: 2rem ;
+
+    background-color: var(--secondary-color);
+}
+
+.inputPlaceholder > label {
+    margin-right: auto;
+    margin-top: 1.5rem;
+    margin-left: 5%;
+}
+.inputPlaceholder > input{
+    width: 40%;
+    background-color: blueviolet;
+    border-radius: .5em;
+    margin-left: 5%;
+
+}
