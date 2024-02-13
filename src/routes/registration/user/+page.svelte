@@ -1,39 +1,35 @@
+<form method="post">
+	<div class="inputPlaceholder">
+		<label for="userName">User Name</label>
+		<input
+			autoComplete="nickname"
+			required
+			minLength={5}
+			type="text"
+			name="userName"
+			id="userName"
+		/>
+		<span class="userNameError"></span>
 
+		<label for="userEmail">Email</label>
+		<input autoComplete="email" required type="email" name="userEmail" id="userEmail" />
+		<span class="emailError"></span>
 
-<form
+		<label for="userPsswrd">Password</label>
+		<input
+			autoComplete="off"
+			required
+			minLength={5}
+			type="text"
+			name="userPsswrd"
+			id="userPsswrd"
       
-      method="post"
-      
-    >
-      <div class="inputPlaceholder">
-        <label for="bandName">Banda neve</label>
-        <input required type="text" name="bandName" id="bandName" />
+		/>
+		<span class="passwordError"></span>
 
-        <label for="bandBirth">Banda alakulása</label>
-        <input type="datetime" name="bandBirth" id="bandBirth" />
+		<label for="userBand">Banda</label>
+		<input autoComplete="off" required type="text" name="userBand" id="userBand" />
 
-        <label for="genres">Zsanrák</label>
-        <input required type="text" name="genres" id="genres" />
-
-        <label for="backStory">A banda sztorija, története</label>
-        <textarea
-          required
-          name="backStory"
-          id="backStory"
-          cols="20"
-          rows="10"
-          placeholder="     Your story" 
-        ></textarea>
-        <input
-          type="file"
-          accept="image/*"
-          name="bandPicture"
-          id="bandPicture"
-          alt=""
-        />
-         
-        <button type="submit" id="submitB" >
-         
-        </button>
-      </div>
-    </form>
+		<input type="submit" value="Submit" id="submitB" />
+	</div>
+</form>
