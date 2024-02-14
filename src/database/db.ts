@@ -44,7 +44,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           // Table already created
         } else {
           var insert = "INSERT INTO user (name, band, password) VALUES (?,?,?)";
-          db.run(insert, ["Beni", "FFTS", "123"]);
+          db.run(insert, ["Benjámin", "FFTS", "12345"]);
         }
       }
     );
