@@ -1,35 +1,15 @@
-<form method="post">
-	<div class="inputPlaceholder">
-		<label for="userName">User Name</label>
-		<input
-			autoComplete="nickname"
-			required
-			minLength={5}
-			type="text"
-			name="userName"
-			id="userName"
-		/>
-		<span class="userNameError"></span>
+<script lang="ts">
+	import type { ActionData, PageData } from './$types';
+	import UserForm from '$lib/forms/UserForm.svelte';
+	export let form: ActionData;
+	export let data: PageData;
+	console.log('page.svelte actiondata= ', form);
+	console.log('page.svelte pagedata= ', data);
 
-		<label for="userEmail">Email</label>
-		<input autoComplete="email" required type="email" name="userEmail" id="userEmail" />
-		<span class="emailError"></span>
+</script>
 
-		<label for="userPsswrd">Password</label>
-		<input
-			autoComplete="off"
-			required
-			minLength={5}
-			type="text"
-			name="userPsswrd"
-			id="userPsswrd"
-      
-		/>
-		<span class="passwordError"></span>
-
-		<label for="userBand">Banda</label>
-		<input autoComplete="off" required type="text" name="userBand" id="userBand" />
-
-		<input type="submit" value="Submit" id="submitB" />
-	</div>
-</form>
+{#if form}
+	It's a successful registration
+{:else}
+	<UserForm />
+{/if}
