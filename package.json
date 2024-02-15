@@ -39,7 +39,7 @@
 	"type": "module",
 	"dependencies": {
 		"concurrently": "^8.2.2",
-		"dotenv": "^16.4.3",
+		"dotenv": "^16.4.4",
 		"sqlite3": "^5.1.7",
 		"tsc": "^2.0.4"
 	}
