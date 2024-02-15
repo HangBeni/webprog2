@@ -8,7 +8,7 @@
 
 </script>
 
-{#if form}
+{#if form?.succes}
 	It's a successful registration
 {:else}
 	<UserForm />
