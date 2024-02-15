@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
-
 	export let reqType = true;
-
 </script>
-<form method="post" action={reqType ? 'user?/registration' : 'user?/login'} use:enhance>
+
+<form method="post">
 	<div class="inputPlaceholder">
 		<label for="userName">User Name</label>
 		<input
@@ -40,11 +38,22 @@
 		<span class="passwordError"></span>
 
 		<label for="userBand">Banda</label>
-		<input autoComplete="off" required type="text" name="userBand" id="userBand" disabled={!reqType}/>
+		<input
+			autoComplete="off"
+			required
+			type="text"
+			name="userBand"
+			id="userBand"
+			disabled={!reqType}
+		/>
 
-		<input type="checkbox" name="reqTypeBox" id="reqTypeBox" checked on:change={e => reqType = e.currentTarget.checked}>
+		<input
+			type="checkbox"
+			name="reqTypeBox"
+			id="reqTypeBox"
+			checked
+			on:change={(e) => (reqType = e.currentTarget.checked)}
+		/>
 		<input type="submit" value={reqType ? 'Regisztráció' : 'Bejentkezés'} id="submitB" />
-		
 	</div>
-	
 </form>
