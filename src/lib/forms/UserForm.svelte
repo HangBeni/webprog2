@@ -64,8 +64,7 @@
 			type="checkbox"
 			name="reqTypeBox"
 			id="reqTypeBox"
-			checked
-			on:change={(e) => (reqType = e.currentTarget.checked)}
+			bind:checked={reqType}
 		/>
 		<input type="submit" value={reqType ? 'Regisztráció' : 'Bejentkezés'} id="submitB" />
 	</div>
