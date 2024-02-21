@@ -41,17 +41,9 @@ app.post('/registration/user', (req: Request, res: Response) => {
 
 //Megvizsgálja hogy van e ilyen felhasználó az adatbázisban
 app.post('/login/user', async (req: Request, res: Response) => {
+	const {userName, userPassword} = req.body;
+	console.log(req.body);
 	
-	console.log(req);
-	// var query = 'SELECT * FROM user WHERE name = ? AND password = ?;';
-	// db.get(query, [userName, userPsswrd], (err, row) => {
-	// 	if (err || !row) {
-	// 		return res.status(418).send({ logged: false});
-	// 	} else {
-	// 		return res.status(200).send({ logged: true, user: row });
-	// 	}
-	// });
-	return res.send({res: req.body});
 });
 
 //Az összes bandát kilistázza
