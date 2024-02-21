@@ -10,9 +10,11 @@
 		"sourceMap": true,
 		"strict": true,
 		"moduleResolution": "bundler",
-		"module": "ESNext"
-	},
-	"include": ["src/**/**/*.ts", "./.svelte-kit/ambient.d.ts"],
+		"module": "ESNext",
+		
+	}	,
+	
+	"include": ["src/**/**/*.ts", "./.svelte-kit/ambient.d.ts", "src/**/*/*.js"],
 	"exclude": ["node_modules"],
 	"ts-node": {
 		"esm": true

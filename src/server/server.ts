@@ -31,25 +31,27 @@ app.post('/registration/user', (req: Request, res: Response) => {
 	db.serialize(() => {
 		db.run(insert, [userName, userBand, userPsswrd], (err) => {
 			if (err) {
-				res.status(418).send({ res: 'Smth went wrong! Maybe there is a same user as you XD' });
+				return res.status(418).send({ res: 'Smth went wrong! Maybe there is a same user as you XD' });
 			} else {
-				res.status(200).send({ res: `It's okay u good ${userName}` });
+				return res.status(200).send({ res: `It's okay u good ${userName}` });
 			}
 		});
 	});
 });
 
 //Megvizsgálja hogy van e ilyen felhasználó az adatbázisban
-app.post('/login/user', (req: Request, res: Response) => {
-	const { userName, userPsswrd } = req.body;
-	var query = 'SELECT * FROM user WHERE name = ? AND password = ?;';
-	db.get(query, [userName, userPsswrd], (err, row) => {
-		if (err || !row) {
-			res.status(418).send({ logged: false, user: row });
-		} else {
-			res.status(200).send({ logged: true, user: row });
-		}
-	});
+app.post('/login/user', async (req: Request, res: Response) => {
+	
+	console.log(req);
+	// var query = 'SELECT * FROM user WHERE name = ? AND password = ?;';
+	// db.get(query, [userName, userPsswrd], (err, row) => {
+	// 	if (err || !row) {
+	// 		return res.status(418).send({ logged: false});
+	// 	} else {
+	// 		return res.status(200).send({ logged: true, user: row });
+	// 	}
+	// });
+	return res.send({res: req.body});
 });
 
 //Az összes bandát kilistázza
@@ -65,7 +67,8 @@ app.get('/allBand', (req: Request, res: Response) => {
 });
 
 app.get('/allUser', (req: Request, res: Response) => {
-	db.all('SELECT * FROM user;', (err, row) => {
+	var sql = 'SELECT * FROM user;';
+	db.all(sql, (err, row) => {
 		if (err) {
 			console.error(err.message);
 			throw err;
