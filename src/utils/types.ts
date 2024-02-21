@@ -8,7 +8,7 @@ export type FormType = {
 
 	userPassword: string;
 
-	userEmail: string;
+	userEmail?: string;
 
-	userBand: string;
+	userBand?: string;
 };
