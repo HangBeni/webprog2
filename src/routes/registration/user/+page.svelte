@@ -1,13 +1,15 @@
 <script lang="ts">
-	// import { SERVER_URL } from "$env/static/private";
 	import UserForm from '$lib/forms/UserForm.svelte';
 	import type { ActionData } from './$types';
 
-	let data: ActionData;
+	export let form: ActionData;
 </script>
 
-	<UserForm />
+<UserForm />
+{console.log(form)}
 
-{#if data?.succes}
-	<p>{data?.body} + {data?.message}</p>
+{#if form?.success}
+	<h2>Hi</h2>
+	<p>{form.body} + {form.message}</p>
+	<p>Response from the cool server: {form.res}</p>
 {/if}
