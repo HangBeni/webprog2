@@ -1,8 +1,21 @@
 <script lang="ts">
 	export let reqType = true;
+	import { useForm } from 'svelte-use-form';
+
+	import { enhance } from '$app/forms';
+
+	const form = useForm({
+		userName: {},
+
+		userPassword: {},
+
+		userEmail: {},
+
+		userBand: {}
+	});
 </script>
 
-<form method="post">
+<form method="POST" action="?/manageUser" use:form >
 	<div class="inputPlaceholder">
 		<label for="userName">User Name</label>
 		<input
@@ -26,14 +39,14 @@
 		/>
 		<span class="emailError"></span>
 
-		<label for="userPsswrd">Password</label>
+		<label for="userPassword">Password</label>
 		<input
 			autoComplete="off"
 			required
 			minLength={5}
 			type="text"
-			name="userPsswrd"
-			id="userPsswrd"
+			name="userPassword"
+			id="userPassword"
 		/>
 		<span class="passwordError"></span>
 

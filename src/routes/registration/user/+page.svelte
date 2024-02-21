@@ -1,15 +1,13 @@
 <script lang="ts">
-	import type { ActionData, PageData } from './$types';
+	// import { SERVER_URL } from "$env/static/private";
 	import UserForm from '$lib/forms/UserForm.svelte';
-	export let form: ActionData;
-	export let data: PageData;
-	console.log('page.svelte actiondata= ', form);
-	console.log('page.svelte pagedata= ', data);
+	import type { ActionData } from './$types';
 
+	let data: ActionData;
 </script>
 
-{#if form?.succes}
-	It's a successful registration
-{:else}
 	<UserForm />
+
+{#if data?.succes}
+	<p>{data?.body} + {data?.message}</p>
 {/if}

@@ -1,28 +1,20 @@
-import type { PageServerLoad, Actions } from './$types';
-import {SERVER_URL} from '$env/static/private';
-
-export const load: PageServerLoad = async () => {
-	return {success: true, url : SERVER_URL};
-};
+import type { Actions } from '@sveltejs/kit';
+import type { FormType } from '../../../utils/types';
 
 export const actions = {
-	registration: async ({ request }) => {
+	manageUser: async ({request}) => {
 		const data = await request.formData();
-		console.log(data);
-		return {succes: true};
-	},
-	login: async ({ request }) => {
-		const data = await request.formData();
-		const res = await fetch(SERVER_URL+'/login/user', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		})
-			.catch((err) => {
-				throw new Error(err);
-			});
-			return res
+		const formData: FormType = {
+			userName: data.get("userName")!.toString(),
+			userBand: data.get("userBand")!.toString(),
+			userEmail: data.get("userEmail")!.toString(),
+			userPassword: data.get("userPassword")!.toString()
+
+		}
+		return {
+			succes: true,
+			message: 'Hello from the server',
+			body:  formData
+		};
 	}
 } satisfies Actions;
