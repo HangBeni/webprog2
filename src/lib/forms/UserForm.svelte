@@ -15,7 +15,7 @@
 	});
 </script>
 
-<form method="POST" action="?/manageUser" use:form >
+<form method="POST" action={reqType ? "?/registration": "?/login"} use:form  >
 	<div class="inputPlaceholder">
 		<label for="userName">User Name</label>
 		<input
@@ -57,7 +57,6 @@
 			type="text"
 			name="userBand"
 			id="userBand"
-			disabled={!reqType}
 		/>
 
 		<input
