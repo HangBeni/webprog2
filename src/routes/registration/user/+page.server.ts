@@ -1,5 +1,5 @@
 import type { Actions } from '@sveltejs/kit';
-import type { FormType } from '../../../utils/types';
+import type { FormType, User } from '../../../utils/types';
 import db from '../../../database/db';
 
 export const actions = {
@@ -10,25 +10,32 @@ export const actions = {
 			userPassword: data.get('userPassword')!.toString(),
 			userBand: data.get('userBand')!.toString()
 		};
-		var query = 'SELECT * FROM user WHERE name = ? AND password = ? AND band = ?;';
-		let response;
-		db.serialize(() => {
-			db.get(query, [formData.userName, formData.userPassword, formData.userBand], (err: Error, row) => {
-				if (err || !row) {
-					response = { res: false };
+		let response: Object | null = null;
+		try {
+			db.get<User>(
+				'SELECT * FROM user WHERE name = ? AND password = ? AND band = ?;',
+				[formData.userName, formData.userPassword, formData.userBand],
+				(err, row) => {
+					if (err || !row) {
+						response = row as User;
+						console.log(row);
+						// console.log(response);
+						// return response;
+					}
+
+					response = row as User;
+					console.log(row);
+					// console.log(response);
+					// return response;
 				}
-
-				response = { res: true, user: row };
-			});
-		});
-
-		return {
-			success: true,
-			message: 'Hello from the server',
-			body: formData,
-			res: response
-		};
+			);
+		} catch (error) {
+			console.error('Error while fetching user:', error);
+		}
+		console.log(response);
+		return { success: true, message: 'Hello from the server', body: formData, res: response };
 	},
+
 	registration: async ({ request }) => {
 		const data = await request.formData();
 		const formData: FormType = {
@@ -37,17 +44,15 @@ export const actions = {
 			userEmail: data.get('userEmail')!.toString(),
 			userPassword: data.get('userPassword')!.toString()
 		};
-		let response;
+		let response: Object = { res: '' };
 		db.serialize(() => {
 			var insert = 'INSERT INTO user (name, band, password) VALUES (?, ?, ?);';
 
-			db.serialize(() => {
-				db.run(insert, [formData.userName, formData.userBand, formData.userPassword], (err) => {
-					if (err) {
-						response = {res: 'Smth went wrong! Maybe there is a same user as you XD'};
-					}
-					response = {res: `It's okay u good ${formData.userName}`};
-				});
+			db.run(insert, [formData.userName, formData.userBand, formData.userPassword], (err) => {
+				if (err) {
+					response = { res: '' };
+				}
+				response = { res: `It's okay u good ${formData.userName}` };
 			});
 		});
 
