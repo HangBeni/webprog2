@@ -12,3 +12,10 @@ export type FormType = {
 
 	userBand?: string;
 };
+
+export type User = {
+	id?: number;
+	name?: string;
+	band?: string;
+	password?: string;
+};
