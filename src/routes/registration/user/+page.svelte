@@ -9,8 +9,8 @@
 
 {#if form?.success}
 	<h2>Hi</h2>
-	<p>{form.body} + {form.message}</p>
-	<p>Response from the cool server: {form.res}</p>
+	<p>{JSON.stringify(form.body)} + {form.message}</p>
+	<p>Response from the cool server: {JSON.stringify(form?.res)}</p>
 {:else if !form?.success}
 	<h2>Hi No Comprende</h2>
 {/if}
