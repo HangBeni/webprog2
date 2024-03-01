@@ -3,24 +3,8 @@ import type { FormType, User } from '../../../utils/types';
 import db from '../../../database/db';
 
 export const actions = {
-	login: async ({ request,fetch }) => {
-		const data = await request.formData();
-		const formData: FormType = {
-			userName: data.get('userName')!.toString(),
-			userPassword: data.get('userPassword')!.toString(),
-			userBand: data.get('userBand')!.toString()
-		};
-		let res = await fetch("/api/login", {
-			method: 'POST',
-			body: JSON.stringify(formData),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).then((res) => {
-		 res.json();
-		})
-
-		return{res}
+	login: async ({ request }) => {
+		
 	},
 
 	registration: async ({ request }) => {
@@ -34,6 +18,7 @@ export const actions = {
 		let response = { res : "It' happened something -- Initial value" };
 		var insert = 'INSERT INTO user (name, band, password) VALUES (?, ?, ?);';
 
+<<<<<<< HEAD
 		db.run(insert, [formData.userName, formData.userBand, formData.userPassword], (err) => {
 			if (err) {
 				return {
@@ -50,6 +35,14 @@ export const actions = {
 				body: formData,
 				res: response
 			};
+=======
+			db.run(insert, [formData.userName, formData.userBand, formData.userPassword], (err) => {
+				if (err) {
+					response = { res: 'Error' };
+				}
+				response = { res: `It's okay u good ${formData.userName}` };
+			});
+>>>>>>> origin/main
 		});
 	}
 } satisfies Actions;
