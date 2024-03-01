@@ -14,8 +14,8 @@ export type FormType = {
 };
 
 export type User = {
-	id?: number;
-	name?: string;
+	id: number;
+	name: string;
 	band?: string;
-	password?: string;
+	password: string;
 };
