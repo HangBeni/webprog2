@@ -1,31 +1,51 @@
-import { type RequestEvent, type RequestHandler } from "./$types";
+import db from '../../../database/db';
+import type { FormType, User } from '$lib/types';
+import type { RequestEvent } from '@sveltejs/kit';
 
-import type { FormType, User } from "../../../utils/types";
-import db from "../../../database/db";
-import { json } from "@sveltejs/kit";
+export async function POST(event: RequestEvent) {
+	try {
+		const formData: FormType = await event.request.json();
+		let res = {};
 
-export const POST: RequestHandler = async (req: RequestEvent) => {
-    const data = await req.request.formData();
-    const formData: FormType = {
-        userName: data.get('userName')!.toString(),
-        userPassword: data.get('userPassword')!.toString(),
-        userBand: data.get('userBand')!.toString()
-    };
+		const user: User | undefined = await new Promise((resolve, reject) => {
+			db.get<User>(
+				'SELECT * FROM user WHERE name = ? AND password = ? AND band = ?;',
+				[formData.userName, formData.userPassword, formData.userBand],
+				(err, row) => {
+					if (err) {
+						console.error(err);
+						reject(err);
+					} else {
+						resolve(row);
+					}
+				}
+			);
+		});
 
-   await db.get<User>(
-        'SELECT * FROM user WHERE name = ? AND password = ? AND band = ?;',
-        [formData.userName, formData.userPassword, formData.userBand],
-        (err, row: User) => {
-            if (err || !row) {
-            	console.error('Error while fetching user:', err);
-            	return json({ success: false, message: 'Hello from the server', body: formData, res: 'Error' });
-            }
+		if (!user) {
+			res = {
+				success: false,
+				user: null
+			};
+			return new Response(JSON.stringify(res), {
+				status: 404,
+				headers: { 'Content-Type': 'application/json' }
+			});
+		}
 
-            //console.log(row);
-            // console.log(response);
-            // return response;
-            return json({ success: true, message: 'Hello from the server', body: formData, res: row });
-        }
-    );
-    return json({ success: false, message: 'Hello from the server', body: formData, res: 'Error' });
+		res = {
+			success: true,
+			user: user
+		};
+		return new Response(JSON.stringify(res), {
+			status: 200,
+			headers: { 'Content-Type': 'application/json' }
+		});
+	} catch (error) {
+		console.error(error);
+		return new Response(JSON.stringify({ success: false, user: null }), {
+			status: 500,
+			headers: { 'Content-Type': 'application/json' }
+		});
+	}
 }
