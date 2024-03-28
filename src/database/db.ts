@@ -17,12 +17,13 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 db.serialize(() => {
 	db.run(
 		`CREATE TABLE band (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER AUTOINCREMENT,
         name text NOT NULL, 
         birth text NOT NULL, 
         genre text NOT NULL, 
         story text NOT NULL, 
-        UNIQUE(name)
+        PRIMARY KEY(id, name),
+
         )`,
 		(err) => {
 			if (err) {
@@ -40,8 +41,10 @@ db.serialize(() => {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name text  NOT NULL, 
             band text NOT NULL,
+			band_id INTEGER NOT NULL,
             password text NOT NULL,
-            UNIQUE(name, password)
+            UNIQUE(name, password),
+			FOREIGN KEY(band_id, band) REFERENCES band(id, name)
             )`,
 		(err) => {
 			if (err) {
@@ -53,18 +56,24 @@ db.serialize(() => {
 		}
 	);
 
-	db.run(
+	db.exec(
 		`CREATE TABLE posts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             author text NOT NULL, 
             content text NOT NULL,
-            )`,
-		(err) => {
-			if (err) {
-				// Table already created
-			}
-		}
+			created_at text NOT NULL,
+			modified_at text
+            )`
 	);
+	db.exec(
+		`CREATE TABLE comments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+			post_id INTEGER,
+            author text NOT NULL, 
+            content text NOT NULL,
+			created_at text NOT NULL,
+			modified_at text,
+			FOREIGN KEY(post_id) REFERENCES posts(id)
+            )`);
 });
-
 export default db;
