@@ -16,6 +16,13 @@ export type User = {
 	band?: string;
 	password: string;
 };
+export type Band = {
+	id: number;
+	name: string;
+	birth: string;
+	genre: string;
+	story: string;
+};
 export type Post = {
 	id: number;
 	author: string;
