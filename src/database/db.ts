@@ -1,3 +1,4 @@
+import type { Band } from '$lib/types';
 import sqlite3 from 'sqlite3';
 
 const DBSOURCE = 'db.db';
@@ -16,14 +17,13 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 
 db.serialize(() => {
 	db.run(
-		`CREATE TABLE band (
-        id INTEGER AUTOINCREMENT,
+		`CREATE TABLE IF NOT EXISTS band (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         name text NOT NULL, 
         birth text NOT NULL, 
         genre text NOT NULL, 
-        story text NOT NULL, 
-        PRIMARY KEY(id, name),
-
+        story text NOT NULL,
+		UNIQUE(id,name) 
         )`,
 		(err) => {
 			if (err) {
@@ -37,43 +37,69 @@ db.serialize(() => {
 	);
 
 	db.run(
-		`CREATE TABLE user (
+		`CREATE TABLE IF NOT EXISTS user (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name text  NOT NULL, 
-            band text NOT NULL,
-			band_id INTEGER NOT NULL,
-            password text NOT NULL,
+            name TEXT NOT NULL, 
+            band TEXT NOT NULL,
+            band_id INTEGER NOT NULL,
+            password TEXT NOT NULL,
             UNIQUE(name, password),
-			FOREIGN KEY(band_id, band) REFERENCES band(id, name)
+            FOREIGN KEY(band_id) REFERENCES band(id)
             )`,
 		(err) => {
 			if (err) {
-				// Table already created
+				console.log('user table error');
+				console.error(err);
 			} else {
-				var insert = 'INSERT INTO user (name, band, password) VALUES (?,?,?)';
-				db.run(insert, ['Benjámin', 'FFTS', '12345']);
+				db.get('SELECT id FROM band WHERE name = ?', ['FFTS'], (err, row: Band) => {
+					if (err) {
+						console.error(err);
+					} else {
+						var insert = 'INSERT INTO user (name, band, band_id, password) VALUES (?,?,?,?)';
+						db.run(insert, ['Benjámin', 'FFTS', row.id, '12345']);
+					}
+				});
 			}
 		}
 	);
 
-	db.exec(
-		`CREATE TABLE posts (
+	db.run(
+		`CREATE TABLE IF NOT EXISTS posts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            author text NOT NULL, 
-            content text NOT NULL,
-			created_at text NOT NULL,
-			modified_at text
-            )`
+            author TEXT NOT NULL, 
+            content TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            modified_at DATETIME
+            )`,
+		(err) => {
+			if (err) {
+				console.log('Post table error!');
+				console.error(err);
+			} else {
+				var insert = 'INSERT INTO posts (author, content) VALUES (?,?)';
+				db.run(insert, ['Benjámin', 'Ez az első posztja az FFTS-nek']);
+				db.run(insert, ['Benjámin', 'Ez a második posztja az FFTS-nek']);
+				console.log("Inserted Post")
+			}
+		}
 	);
-	db.exec(
-		`CREATE TABLE comments (
+	db.run(
+		`CREATE TABLE IF NOT EXISTS comments (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
 			post_id INTEGER,
             author text NOT NULL, 
             content text NOT NULL,
-			created_at text NOT NULL,
-			modified_at text,
-			FOREIGN KEY(post_id) REFERENCES posts(id)
-            )`);
+			created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+			modified_at DATETIME,
+			FOREIGN KEY (post_id) REFERENCES posts(id)
+            )`,
+		(err) => {
+			if (err) {
+				console.log('Comment table error!');
+				console.error(err);
+			} else {
+			}
+		}
+	);
 });
 export default db;
