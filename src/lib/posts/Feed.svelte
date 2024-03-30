@@ -1,29 +1,32 @@
 <script lang="ts">
-	import type { Post } from "$lib/types";
-	import { onMount } from "svelte";
+	import type { Comment, Post } from '$lib/types';
+	import { onMount } from 'svelte';
+	import PostCard from './PostCard.svelte';
+	import CommentCard from './CommentCard.svelte';
 
-export let posts : Post[] = [];
-async function getComments(id : number) {
-    
-}
-onMount( async () => {
-    posts = await fetch("/api/posts").then(res => res.json());
-})
+	export let posts: Post[] = [];
+	export let comments: Comment[] = [];
+	async function getComments() {
+		comments = await fetch('/api/comments').then((res) => res.json());
+	}
+	onMount(async () => {
+		posts = await fetch('/api/posts').then((res) => res.json());
+	});
 </script>
 
 <main>
-{#each posts as post }
-    <h1>{post.author}</h1>
-    <p>{post.content}</p>
-    <i>{Date.parse(post.created_at)}</i>
-    {#await getComments then comment }
-        
-    {/await}
-    {/each}
+	{#if posts}
+		{#each posts as post}
+			<PostCard {post}>
+				{#each comments as comment}
+					<CommentCard {comment} />
+				{/each}
+			</PostCard>
+		{/each}
+	{:else}
+		<p>No Posts</p>
+	{/if}
 </main>
 
-
 <style>
-
-
 </style>
