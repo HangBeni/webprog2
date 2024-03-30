@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "concurrently \"vite dev\" \"tsx watch src/server/server.ts\"",
+		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -39,7 +39,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"concurrently": "^8.2.2",
 		"dotenv": "^16.4.4",
 		"sqlite3": "^5.1.7",
 		"tsc": "^2.0.4"
