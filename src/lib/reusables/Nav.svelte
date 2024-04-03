@@ -1,5 +1,6 @@
 <script lang="ts">
-	import type { Links } from "../../utils/types";
+	import type { Links } from "$lib/types";
+
 
     export const links : Links[] = [
     {name: "Főoldal", link: "/"},
