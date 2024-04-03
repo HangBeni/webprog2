@@ -14,18 +14,28 @@ export async function GET() {
 				}
 			});
 		});
-	
+
 		return await new Response(JSON.stringify(posts), { status: 200 });
-		
 	} catch (error) {
 		return await new Response('Server Error', { status: 500 });
-		
 	}
 }
 
 export async function POST(event: RequestEvent) {
-	let post = await event.request.json();
-	let sql = 'INSERT INTO posts (author, content) VALUES (?, ?);';
-	await db.run(sql, [post.author, post.content]);
-	return await new Response('Success', { status: 200 });
+	try {
+		let post = await event.request.json();
+		let insert = 'INSERT INTO posts (author, content) VALUES (?, ?);';
+		await new Promise<void>((resolve, reject) => {
+			db.run(insert, [post.author, post.content], (err) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve();
+				}
+			});
+		});
+		return await new Response('Success', { status: 200 });
+	} catch (error) {
+		return await new Response('Internal Server Error', { status: 500 });
+	}
 }
