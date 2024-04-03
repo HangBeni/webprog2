@@ -9,3 +9,11 @@
 	<p>{comment.content}</p>
 	<i>{Date.parse(comment.created_at)}</i>
 </div>
+
+
+<style>
+	div{
+		border: 1px dotted blue;
+	}
+	
+</style>
