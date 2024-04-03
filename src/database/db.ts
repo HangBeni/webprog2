@@ -55,7 +55,7 @@ db.serialize(() => {
 					if (err) {
 						console.error(err);
 					} else {
-						var insert = 'INSERT INTO user (name, band, band_id, password) VALUES (?,?,?,?)';
+						var insert = 'INSERT OR IGNORE INTO user (name, band, band_id, password) VALUES (?,?,?,?);';
 						db.run(insert, ['Benjámin', 'FFTS', row.id, '12345']);
 					}
 				});
@@ -76,17 +76,13 @@ db.serialize(() => {
 				console.log('Post table error!');
 				console.error(err);
 			} else {
-				var insert = 'INSERT INTO posts (author, content) VALUES (?,?)';
-				db.run(insert, ['Benjámin', 'Ez az első posztja az FFTS-nek']);
-				db.run(insert, ['Benjámin', 'Ez a második posztja az FFTS-nek']);
-				console.log("Inserted Post")
 			}
 		}
 	);
 	db.run(
 		`CREATE TABLE IF NOT EXISTS comments (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-			post_id INTEGER,
+			post_id INTEGER NOT NULL,
             author text NOT NULL, 
             content text NOT NULL,
 			created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
