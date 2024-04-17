@@ -6,7 +6,7 @@ export type Links = {
 export type FormType = {
 	userName: string;
 	userPassword: string;
-	userEmail?: string;
+	userEmail: string;
 	userBand?: string;
 };
 
