@@ -16,8 +16,8 @@
         {/each}
         <details >
             <summary>Regisztáció</summary>
-            <a href="/registration/band">Banda regisztráció</a>
-            <a href="/registration/user">User regisztráció</a>
+            <a href="/band">Banda regisztráció</a>
+            <a href="/user">User regisztráció</a>
         </details>
     </ul>
 </nav> 

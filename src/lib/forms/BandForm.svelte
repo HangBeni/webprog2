@@ -1,8 +1,3 @@
-<script lang="ts">
-
-
-</script>
-
 <form method="POST">
 	<div class="inputPlaceholder">
 		<label for="bandName">Banda neve</label>
