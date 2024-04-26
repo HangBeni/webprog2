@@ -1,4 +1,3 @@
-
 export function emailValidator(email: string, emailError: Element | null) {
 	// Basic email validation
 	const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -44,6 +43,21 @@ export function nameValidator(name: string, nameError: Element | null) {
 		if (nameError) {
 			nameError.textContent = ''; // Clear error message if valid
 			nameError.classList.toggle('error');
+		}
+	}
+}
+
+export function birthValidator(birth: Date, birthError: Element | null) {
+	const now = new Date();
+	const birthDate = new Date(birth)
+	const isLate = birthDate > now;
+	if (isLate) {
+		birthError!.textContent = `Birth cannot be later than the current Date: ${now.toDateString()}`;
+		birthError!.classList.toggle('error');
+	} else {
+		if (birthError) {
+			birthError.textContent = ``;
+			birthError.classList.toggle('error');
 		}
 	}
 }
