@@ -19,7 +19,7 @@ export type User = {
 export type Band = {
 	id: number;
 	name: string;
-	birth: string;
+	birth: Date;
 	genre: string;
 	story: string;
 };
