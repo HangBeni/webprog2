@@ -10,11 +10,15 @@
 		"sourceMap": true,
 		"strict": true,
 		"moduleResolution": "bundler",
-		"module": "ESNext",
-		
-	}	,
-	
-	"include": ["src/**/**/**/*.ts", "./.svelte-kit/ambient.d.ts", "src/**/*/*.js"],
+		"module": "ESNext"
+	},
+
+	"include": [
+		"src/**/**/**/*.ts",
+		"./.svelte-kit/ambient.d.ts",
+		"src/**/*/*.js",
+		"drizzle.config.ts"
+	],
 	"exclude": ["node_modules"],
 	"ts-node": {
 		"esm": true
