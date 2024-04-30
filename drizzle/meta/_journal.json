@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1714487774888,
+      "tag": "0000_known_mister_sinister",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1714490334125,
+      "tag": "0001_bumpy_sersi",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1714494043701,
+      "tag": "0002_friendly_shinobi_shaw",
+      "breakpoints": true
+    }
+  ]
+}
