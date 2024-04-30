@@ -4,7 +4,6 @@ export type Links = {
 };
 
 export type User = {
-	id: number;
 	name: string;
 	band: string;
 	password: string;
