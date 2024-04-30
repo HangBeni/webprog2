@@ -1,12 +1,12 @@
 <script lang="ts">
-	import UserForm from "$lib/forms/UserForm.svelte";
+	import LoginForm from "$lib/forms/LoginForm.svelte";
 
 
 </script>
 
 
 <main>
-<UserForm/>
+ <LoginForm/>
 </main>
 
 

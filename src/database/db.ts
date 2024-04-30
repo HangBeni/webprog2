@@ -40,9 +40,9 @@ db.serialize(() => {
 		`CREATE TABLE IF NOT EXISTS user (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL, 
-            band TEXT NOT NULL,
             band_id INTEGER NOT NULL,
             password TEXT NOT NULL,
+            email TEXT NOT NULL,
             UNIQUE(name, password),
             FOREIGN KEY(band_id) REFERENCES band(id)
             )`,
@@ -55,14 +55,15 @@ db.serialize(() => {
 					if (err) {
 						console.error(err);
 					} else {
-						var insert = 'INSERT OR IGNORE INTO user (name, band, band_id, password) VALUES (?,?,?,?);';
-						db.run(insert, ['Benjámin', 'FFTS', row.id, '12345']);
+						var insert = 'INSERT OR IGNORE INTO user (name, band_id, password) VALUES (?,?,?);';
+						db.run(insert, ['Benjámin', row.id, '12345']);
 					}
 				});
 			}
 		}
 	);
 
+  
 	db.run(
 		`CREATE TABLE IF NOT EXISTS posts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

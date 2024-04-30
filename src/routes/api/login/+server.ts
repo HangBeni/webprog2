@@ -1,16 +1,16 @@
 import db from '../../../database/db';
-import type { FormType, User } from '$lib/types';
+import type { User } from '$lib/types';
 import type { RequestEvent } from '@sveltejs/kit';
 
 export async function POST(event: RequestEvent) {
 	try {
-		const formData: FormType = await event.request.json();
+		const formData:User = await event.request.json();
 		let res = {};
 
 		const user: User | undefined = await new Promise((resolve, reject) => {
 			db.get<User>(
-				'SELECT * FROM user WHERE name = ? AND password = ? AND band = ?;',
-				[formData.userName, formData.userPassword, formData.userBand],
+				'SELECT * FROM user WHERE name = ? AND password = ?;',
+				[formData.name, formData.password],
 				(err, row) => {
 					if (err) {
 						console.error(err);

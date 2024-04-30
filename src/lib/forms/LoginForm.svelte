@@ -1,17 +1,15 @@
 <script lang="ts">
 	import type { User } from '$lib/types';
-	import { emailValidator, nameValidator, passwordValidator } from '$lib/validators';
+	import { nameValidator, passwordValidator } from '$lib/validators';
 	import { onMount } from 'svelte';
 
+
 	let nameErrorSpan: HTMLElement | null;
-	let emailErrorSpan: HTMLElement | null;
 	let passwordErrorSpan: HTMLElement | null;
 
 	let nameValid: boolean | undefined = false;
-	let emailValid: boolean | undefined = false;
 	let passwordValid: boolean | undefined = false;
 	let bandValid: boolean | undefined = false;
-
 	let loginRes = {
 		success: false,
 		user: null
@@ -20,30 +18,29 @@
 	let form: User = {
 		id: 0,
 		name: '',
+		band: '',
 		password: '',
-		email: '',
-		band: ''
+		email: ''
 	};
 
 	onMount(() => {
 		nameErrorSpan = document.getElementById('userNameError');
-		emailErrorSpan = document.getElementById('emailError');
 		passwordErrorSpan = document.getElementById('passwordError');
 	});
 
-	async function handleReg() {
-		loginRes = await fetch('/api/registration', {
+
+	async function handleLogin() {
+		loginRes = await fetch('/api/login', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(form)
 		}).then((res) => res.json());
-	
 	}
 </script>
 
-<form on:submit|preventDefault={() => console.log('Submit')}>
+<form on:submit|preventDefault={()=> console.log('Submit')}>
 	<div class="inputPlaceholder">
 		<label for="userName">User Name</label>
 		<input
@@ -54,21 +51,9 @@
 			name="userName"
 			id="userName"
 			bind:value={form.name}
-			on:change={() => (nameValid = nameValidator(form.name, nameErrorSpan))}
+			on:change={() => nameValid = nameValidator(form.name, nameErrorSpan)}
 		/>
-		<span id="userNameError" class="error"></span>
-
-		<label for="userEmail">Email</label>
-		<input
-			autoComplete="email"
-			required
-			type="email"
-			name="userEmail"
-			id="userEmail"
-			bind:value={form.email}
-			on:change={() => (emailValid = emailValidator(form.email, emailErrorSpan))}
-		/>
-		<span id="emailError" class="error"></span>
+		<span id="userNameError" class="error"></span>	
 
 		<label for="userPassword">Password</label>
 		<input
@@ -79,7 +64,7 @@
 			name="userPassword"
 			id="userPassword"
 			bind:value={form.password}
-			on:change={() => (passwordValid = passwordValidator(form.password, passwordErrorSpan))}
+			on:change={() => passwordValid = passwordValidator(form.password, passwordErrorSpan)}
 		/>
 		<span id="passwordError" class="error"></span>
 
@@ -91,21 +76,22 @@
 			name="userBand"
 			id="userBand"
 			bind:value={form.band}
-			on:change={() => (bandValid = form.band !== '')}
+			on:change={() => bandValid = form.band !== ""}
 		/>
 
+		
 		<input
 			type="button"
-			value={'Regisztráció'}
-			on:click={handleReg}
-			disabled={!passwordValid || !nameValid || !bandValid || !emailValid}
+			value={'Bejentkezés'}
+			on:click={handleLogin}
+			disabled={!passwordValid || !nameValid || !bandValid}
 			id="submitB"
 		/>
 	</div>
 </form>
 
-{#if loginRes.success && nameValid && emailValid && passwordValid}
-	<p>Registration successful. User: {JSON.stringify(loginRes.user)}</p>
+{#if loginRes.success && nameValid && passwordValid && bandValid}
+	<p>Login successful. User: {JSON.stringify(loginRes.user)}</p>
 {:else if loginRes.success === false}
 	<p>Login failed.</p>
 {/if}
