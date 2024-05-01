@@ -10,7 +10,6 @@ export type User = {
 	email: string;
 };
 export type Band = {
-	id: number;
 	name: string;
 	birth: Date;
 	genre: string;
@@ -25,10 +24,15 @@ export type Post = {
 };
 
 export type Comment = {
-	id: number;
 	post_id: number;
 	author: string;
 	content: string;
 	created_at: string;
 	modified_at?: string;
 };
+
+export enum RegistrationStatus {
+	OK,
+	ThereIs,
+	ServerFail
+}
