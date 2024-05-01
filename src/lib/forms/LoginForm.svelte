@@ -16,7 +16,6 @@
 	};
 
 	let form: User = {
-		id: 0,
 		name: '',
 		band: '',
 		password: '',
