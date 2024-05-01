@@ -24,7 +24,7 @@
 	});
 
 	const handleRegistration = async () => {
-		regStatus = await fetch('api/registration/band', {
+		regStatus = await fetch('/api/band', {
 			method: 'POST',
 			body: JSON.stringify(band),
 			headers: {
@@ -32,6 +32,7 @@
 			}
 		}).then((res) => res.json());
 
+		
 		if (regStatus == RegistrationStatus.OK) {
 			redirect(308, '/');
 		} else if (regStatus == RegistrationStatus.ServerFail) {

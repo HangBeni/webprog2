@@ -31,7 +31,7 @@
 	});
 
 	async function handleReg() {
-		loginRes = await fetch('/api/registration/user', {
+		loginRes = await fetch('/api/user', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
