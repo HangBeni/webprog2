@@ -7,7 +7,7 @@
 <div>
 	<h4>{comment.author}</h4>
 	<p>{comment.content}</p>
-	<i>{Date.parse(comment.created_at)}</i>
+	<i>{comment.created_at}</i>
 </div>
 
 
