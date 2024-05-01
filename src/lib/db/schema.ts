@@ -10,6 +10,9 @@ export const bands = sqliteTable("bands", {
 	genre: text('genre').notNull()
 })
 
+export type SelectBand = InferSelectModel<typeof bands>;
+export type InsertBand = InferInsertModel<typeof bands>;
+
 export const users = sqliteTable("users", {
     id: integer('id').primaryKey(),
 	name: text('name').notNull(),
@@ -29,7 +32,11 @@ export const posts = sqliteTable("posts", {
 	modified_at: text('modified_at')
 })
 
-export const comments = sqliteTable("posts", {
+
+export type SelectPost = InferSelectModel<typeof posts>;
+export type InsertPost = InferInsertModel<typeof posts>;
+
+export const comments = sqliteTable("comments", {
     id:  integer('id').primaryKey(),
 	post_id: integer('band').references(() => posts.id),
 	author: text('author').notNull(),
@@ -37,3 +44,6 @@ export const comments = sqliteTable("posts", {
 	created_at: text('created_at').notNull().default(sql`(current_timestamp)`),
 	modified_at: text('modified_at')
 })
+
+export type SelectComment = InferSelectModel<typeof comments>;
+export type InsertComment = InferInsertModel<typeof comments>;
