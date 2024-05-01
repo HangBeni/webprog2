@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { RegistrationStatus, type Band } from '$lib/types';
+	import {  RegistrationStatus, type Band } from '$lib/types';
 	import { birthValidator, nameValidator } from '$lib/validators';
 	import { redirect } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
@@ -32,7 +32,6 @@
 			}
 		}).then((res) => res.json());
 
-		
 		if (regStatus == RegistrationStatus.OK) {
 			redirect(308, '/');
 		} else if (regStatus == RegistrationStatus.ServerFail) {

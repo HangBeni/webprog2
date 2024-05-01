@@ -19,8 +19,7 @@
 		name: '',
 		band: '',
 		password: '',
-		email: ''
-	};
+		email: ''	};
 
 	onMount(() => {
 		nameErrorSpan = document.getElementById('userNameError');

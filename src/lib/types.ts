@@ -9,6 +9,7 @@ export type User = {
 	password: string;
 	email: string;
 };
+
 export type Band = {
 	name: string;
 	birth: Date;
