@@ -88,11 +88,6 @@
 	</div>
 </form>
 
-{#if loginRes.success && nameValid && passwordValid && bandValid}
-	<p>Login successful. User: {JSON.stringify(loginRes.user)}</p>
-{:else if loginRes.success === false}
-	<p>Login failed.</p>
-{/if}
 
 <style>
 	.error {
