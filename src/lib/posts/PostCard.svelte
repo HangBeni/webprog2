@@ -5,11 +5,11 @@
 
 	export let post: Post;
 	let comments: Comment[] = [];
+	let commentContent: string = '';
 
 	async function getComments() {
 		comments = await fetch('/api/comments').then((res) => res.json());
 	}
-	let commentContent: string = '';
 
 	async function handleComment() {
 		await fetch('api/comments', {
