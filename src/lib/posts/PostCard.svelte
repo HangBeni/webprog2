@@ -1,11 +1,18 @@
 <script lang="ts">
-	import type { Post, Comment } from '$lib/types';
+	import type { Post } from '$lib/types';
 	import { onMount } from 'svelte';
 	import CommentCard from './CommentCard.svelte';
+	import type { InsertComment, SelectComment } from '$lib/db/schema';
 
 	export let post: Post;
-	let comments: Comment[] = [];
-	let commentContent: string = '';
+
+	let comments: SelectComment[] = [];
+	let newComment: InsertComment = {
+		author: post.author, //Ezt majd a cookies-ból kell tudni
+		content:'',
+		created_at: new Date().toDateString(),
+		post_id: post.id
+	};
 
 	async function getComments() {
 		comments = await fetch('/api/comments').then((res) => res.json());
@@ -14,7 +21,7 @@
 	async function handleComment() {
 		await fetch('api/comments', {
 			method: 'POST',
-			body: JSON.stringify({author: post.author, content: commentContent, post_id: post.id }),
+			body: JSON.stringify(newComment),
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json'
@@ -33,7 +40,7 @@
 	<i>{post.created_at}</i>
 	<p>{post.content}</p>
 	<div class="comment">
-		<input type="text" placeholder="Comment Here" bind:value={commentContent} />
+		<input type="text" placeholder="Comment Here" bind:value={newComment.content} />
 		<button on:click={handleComment}>--></button>
 	</div>
 	{#await getComments}

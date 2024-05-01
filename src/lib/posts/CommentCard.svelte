@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Comment } from '$lib/types';
+	import type { SelectComment } from '$lib/db/schema';
 
-	export let comment: Comment;
+	export let comment: SelectComment;
 </script>
 
 <div>
