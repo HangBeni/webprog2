@@ -109,7 +109,8 @@
 			required
 		/> -->
 
-		<button type="submit" id="submitB"> Registration </button>
+		<button type="submit" id="submitB" disabled={!nameError?.classList.contains("error") && !birthError?.classList.contains("error") 
+													&& !genreError?.classList.contains("error")}> Registration </button>
 	</div>
 </form>
 
