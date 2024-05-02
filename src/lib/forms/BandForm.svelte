@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import {  RegistrationStatus, type Band } from '$lib/types';
 	import { birthValidator, nameValidator } from '$lib/validators';
-	import { redirect } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
 
 	let band: Band = {
@@ -33,7 +33,8 @@
 		}).then((res) => res.json());
 
 		if (regStatus == RegistrationStatus.OK) {
-			redirect(308, '/');
+			goto('/bandbrowser');
+			
 		} else if (regStatus == RegistrationStatus.ServerFail) {
 			alert('Server Fail');
 			band.name = '';
