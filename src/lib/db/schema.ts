@@ -16,7 +16,7 @@ export type InsertBand = InferInsertModel<typeof bands>;
 export const users = sqliteTable("users", {
     id: integer('id').primaryKey(),
 	name: text('name').notNull().unique(),
-	band_id: integer('band_id').notNull().references(() => bands.id),
+	band_id: integer('band_id').references(() => bands.id),
 	password: text('password').notNull(),
 	email: text('email').notNull()
 });
