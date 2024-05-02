@@ -35,5 +35,6 @@ export type Comment = {
 export enum RegistrationStatus {
 	OK,
 	ThereIs,
-	ServerFail
+	ServerFail,
+	NotFound
 }
