@@ -1,5 +1,5 @@
 import { db } from '$lib/db/db.server';
-import { bands, users } from '$lib/db/schema';
+import { bands, users, type SelectUser } from '$lib/db/schema';
 import type { User } from '$lib/types';
 import type { RequestEvent } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
@@ -23,13 +23,18 @@ export async function POST(event: RequestEvent) {
 
 		const { id } = bandIdx[0];
         
-		const theNewUser  = await db.insert(users).values({
+		const theNewUser : SelectUser = await db.insert(users).values({
             name: formData.name,
 			password: formData.password,
 			email: formData.email,
 			band_id: id
-        }).returning();
-
+        }).returning().get();
+		
+		event.cookies.set('session', JSON.stringify({userID: theNewUser.id, bandID: theNewUser.band_id}), {
+			path:'/',
+			httpOnly: true,
+			maxAge: 60*60*24*2 //2 napos bejentkezés
+		});
 		return new Response(JSON.stringify({ user: theNewUser, success: true }), {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' },
