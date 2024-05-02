@@ -1,6 +1,6 @@
 import { db } from '$lib/db/db.server';
 import { bands, type InsertBand, type SelectBand } from '$lib/db/schema';
-import { RegistrationStatus, type Band } from '$lib/types';
+import { RegistrationStatus } from '$lib/types';
 import type { RequestEvent } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
