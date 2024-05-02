@@ -1,51 +1,25 @@
-import db from '../../../database/db';
-import type { User } from '$lib/types';
+import { db } from '$lib/db/db.server';
+import { users, type SelectUser } from '$lib/db/schema';
+import { RegistrationStatus, type User } from '$lib/types';
 import type { RequestEvent } from '@sveltejs/kit';
+import { eq } from 'drizzle-orm';
 
 export async function POST(event: RequestEvent) {
 	try {
-		const formData:User = await event.request.json();
-		let res = {};
+		const loggerUser: User = await event.request.json();
 
-		const user: User | undefined = await new Promise((resolve, reject) => {
-			db.get<User>(
-				'SELECT * FROM user WHERE name = ? AND password = ?;',
-				[formData.name, formData.password],
-				(err, row) => {
-					if (err) {
-						console.error(err);
-						reject(err);
-					} else {
-						resolve(row);
-					}
-				}
-			);
+		const isThere = await db.query.users.findFirst({
+			where:
+				eq(users.name, loggerUser.name) &&
+				eq(users.email, loggerUser.email) &&
+				eq(users.password, loggerUser.password)
 		});
 
-		if (!user) {
-			res = {
-				success: false,
-				user: null
-			};
-			return new Response(JSON.stringify(res), {
-				status: 404,
-				headers: { 'Content-Type': 'application/json' }
-			});
+		if (!isThere) {
+			return new Response(JSON.stringify(RegistrationStatus.NotFound), { status: 422 });
 		}
-
-		res = {
-			success: true,
-			user: user
-		};
-		return new Response(JSON.stringify(res), {
-			status: 200,
-			headers: { 'Content-Type': 'application/json' }
-		});
+		return new Response(JSON.stringify(RegistrationStatus.ThereIs), { status: 200 });
 	} catch (error) {
-		console.error(error);
-		return new Response(JSON.stringify({ success: false, user: null }), {
-			status: 500,
-			headers: { 'Content-Type': 'application/json' }
-		});
+		return new Response(JSON.stringify(RegistrationStatus.ServerFail), { status: 500 });
 	}
 }
