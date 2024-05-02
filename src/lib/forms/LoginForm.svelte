@@ -42,7 +42,7 @@
 		};
 
 		if (regStatus == RegistrationStatus.ThereIs) {
-			goto('/');
+			window.location.href = '/' // ahhoz kell így csinálni hogy újra töltsön
 		} else if (regStatus == RegistrationStatus.NotFound) {
 			nameErrorSpan!.textContent = 'Nincs ilyen user';
 		} else if (regStatus == RegistrationStatus.ServerFail) {
@@ -51,7 +51,7 @@
 	}
 </script>
 
-<form on:submit|preventDefault={() => console.log('Submit')}>
+<form>
 	<div class="inputPlaceholder">
 		<label for="userName">User Name</label>
 		<input
