@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { db } from '$lib/db/db.server';
 	import type { Links } from '$lib/types';
-	import { eq } from 'drizzle-orm';
 	import type { LayoutData } from '../../routes/$types';
-	import { bands } from '$lib/db/schema';
+	import { type SelectBand } from '$lib/db/schema';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 
 	export const links: Links[] = [
 		{ name: 'Főoldal', link: '/' },
@@ -13,9 +13,19 @@
 		{ name: 'Banda regisztráció', link: '/registration/band' },
 		{ name: 'User regisztráció', link: '/registration/user' }
 	];
+
 	export let data: LayoutData;
-	async function getBandName(bandId: number) {
-		return await db.query.bands.findFirst({ where: eq(bands.id, bandId), columns: { name: true } });
+	let bandName:string | undefined;
+	
+	onMount(async () => {
+		const allBand : SelectBand[] = await fetch("/api/band").then(res => res.json());
+		bandName = allBand.find((band) => band.id === data.userBand)?.name;
+	})
+	const logOut = async () => {
+		await fetch("/api/login", {
+			method: 'DELETE'
+		});
+		goto('/')
 	}
 	//<i class="fa-solid fa-person"></i> ---> avatar
 </script>
@@ -24,16 +34,17 @@
 	<ul>
 		{#each links as link}
 			{#if link.link === '/login' && data.inSession}
-				<li><a href={`/${data.userID}`}> <i class="fa-solid fa-person"></i> </a></li>
+				<li><a href={`/${data.userID}`}> <i class="fa-solid fa-person"></i></a></li>
 				{#if data.userBand}
 					<li>
-						<a href={`/${data.userBand}`}>{getBandName(data.userBand)}</a>
+						<a href={`/${bandName}`}>{bandName}</a>
 					</li>
 				{/if}
 			{:else}
 				<li><a href={link.link}>{link.name}</a></li>
 			{/if}
 		{/each}
+		<li><a data-sveltekit-reload href="/" on:click={logOut}>Log out</a></li>
 	</ul>
 </nav>
 
