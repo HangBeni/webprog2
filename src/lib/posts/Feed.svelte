@@ -1,18 +1,16 @@
 <script lang="ts">
-	import type { Post } from '$lib/types';
-	import { onMount } from 'svelte';
+
 	import PostCard from './PostCard.svelte';
+	import type { SelectPost } from '$lib/db/schema';
 
-	export let posts: Post[] = [];
+	export let all: SelectPost[];
+	
 
-	onMount(async () => {
-		posts = await fetch('/api/posts').then((res) => res.json());
-	});
 </script>
 
 <main>
-	{#if posts}
-		{#each posts as post}
+	{#if all}
+		{#each all as post}
 			<PostCard {post} />
 		{/each}
 	{:else}
