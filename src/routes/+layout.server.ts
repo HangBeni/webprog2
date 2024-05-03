@@ -8,7 +8,7 @@ export async function load({ cookies }) {
 			userBand: 0
 		};
 	} else {
-		const data = JSON.parse(session) as {userID: number, bandID: number};
+		const data = JSON.parse(session) as {userID: number, bandID: number | null};
 		return {
 			inSession: true,
 			userID: data.userID /*user id from session */,
