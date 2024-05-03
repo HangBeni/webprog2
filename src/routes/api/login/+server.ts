@@ -9,12 +9,9 @@ export async function POST(event: RequestEvent) {
 		const loggerUser: User = await event.request.json();
 		
 		const isThere = await db.query.users.findFirst({
-			where:
-				eq(users.name, loggerUser.name) &&
-				eq(users.email, loggerUser.email) &&
-				eq(users.password, loggerUser.password)
+			where: (users, {eq}) => (eq(users.name, loggerUser.name) && eq(users.password, loggerUser.password) && eq(users.email, loggerUser.email))
 		});
-
+		
 		if (!isThere) {
 			return new Response(JSON.stringify(RegistrationStatus.NotFound), { status: 422 });
 		}
