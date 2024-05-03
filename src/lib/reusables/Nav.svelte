@@ -42,7 +42,7 @@
 				<li><a href={`/${userName}`}> <i class="fa-solid fa-person"></i> {userName}</a></li>
 				{#if data.userBand}
 					<li>
-						<a href={`/${bandName}`}><i class="fa-brands fa-bandcamp"></i> {bandName}</a>
+						<a href={`/myband/${bandName}`}><i class="fa-brands fa-bandcamp"></i> {bandName}</a>
 					</li>
 				{/if}
 			{:else}
