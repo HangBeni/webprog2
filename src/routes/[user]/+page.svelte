@@ -1,5 +1,6 @@
 <script lang="ts">
-	import type { PageServerData } from "./$types";
+	import PostingInput from "$lib/posts/PostingInput.svelte";
+import type { PageServerData } from "./$types";
 
 
 
@@ -8,7 +9,8 @@
 </script>
 
 <main>
-
+<PostingInput/>
+<h1>{myUser?.name}</h1>
 </main>
 
 <style>
