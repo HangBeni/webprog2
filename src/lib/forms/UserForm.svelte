@@ -49,6 +49,7 @@
 			autoComplete="nickname"
 			required
 			minLength={5}
+			maxlength={20}
 			type="text"
 			name="userName"
 			id="userName"
