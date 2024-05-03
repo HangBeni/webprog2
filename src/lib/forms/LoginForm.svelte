@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { RegistrationStatus, type User } from '$lib/types';
-	import { nameValidator, passwordValidator } from '$lib/validators';
+	import { emailValidator, nameValidator, passwordValidator } from '$lib/validators';
 	import { onMount } from 'svelte';
 
 	let nameErrorSpan: HTMLElement | null;
 	let passwordErrorSpan: HTMLElement | null;
+	let emailErrorSpan: HTMLElement | null;
 
 	let nameValid: boolean | undefined = false;
 	let passwordValid: boolean | undefined = false;
-	let bandValid: boolean | undefined = false;
+	let emailValid: boolean | undefined = false;
 
 	let regStatus: RegistrationStatus;
 
@@ -17,12 +17,14 @@
 		name: '',
 		password: '',
 		email: '',
-		band: ''
+		band: undefined
 	};
 
 	onMount(() => {
 		nameErrorSpan = document.getElementById('userNameError');
 		passwordErrorSpan = document.getElementById('passwordError');
+		emailErrorSpan = document.getElementById('emailError');
+
 	});
 
 	async function handleLogin() {
@@ -79,22 +81,33 @@
 		/>
 		<span id="passwordError" class="error"></span>
 
+		<label for="userEmail">Email</label>
+		<input
+			autoComplete="email"
+			required
+			minLength={5}
+			type="email"
+			name="userPassword"
+			id="userPassword"
+			bind:value={form.email}
+			on:change={() => (emailValid = emailValidator(form.email, emailErrorSpan))}
+		/>
+		<span id="emailError" class="error"></span>
+
 		<label for="userBand">Banda</label>
 		<input
 			autoComplete="off"
-			required
 			type="text"
 			name="userBand"
 			id="userBand"
 			bind:value={form.band}
-			on:change={() => (bandValid = form.band !== '')}
 		/>
 
 		<input
 			type="button"
 			value={'Bejentkezés'}
 			on:click={handleLogin}
-			disabled={!passwordValid || !nameValid || !bandValid}
+			disabled={!passwordValid || !nameValid}
 			id="submitB"
 		/>
 	</div>
