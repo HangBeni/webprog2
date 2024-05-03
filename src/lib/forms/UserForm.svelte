@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { User } from '$lib/types';
+	import { RegistrationStatus, type User } from '$lib/types';
 	import { emailValidator, nameValidator, passwordValidator } from '$lib/validators';
 	import { onMount } from 'svelte';
 
@@ -10,12 +10,6 @@
 	let nameValid: boolean | undefined = false;
 	let emailValid: boolean | undefined = false;
 	let passwordValid: boolean | undefined = false;
-	let bandValid: boolean | undefined = false;
-
-	let loginRes = {
-		success: false,
-		user: null
-	};
 
 	let form: User = {
 		name: '',
@@ -31,14 +25,20 @@
 	});
 
 	async function handleReg() {
-		loginRes = await fetch('/api/user', {
+		const loginRes : RegistrationStatus = await fetch('/api/user', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(form)
 		}).then((res) => res.json());
-	
+
+		if (loginRes == RegistrationStatus.OK) {
+			window.location.href = '/' // ahhoz kell így csinálni hogy újra töltsön
+		}else if (loginRes == RegistrationStatus.ServerFail) {
+			alert('Server fail!');
+		}
+		
 	}
 </script>
 
@@ -90,24 +90,17 @@
 			name="userBand"
 			id="userBand"
 			bind:value={form.band}
-			on:change={() => (bandValid = form.band !== '')}
 		/>
 
 		<input
 			type="button"
 			value={'Regisztráció'}
 			on:click={handleReg}
-			disabled={!passwordValid || !nameValid || !bandValid || !emailValid}
+			disabled={!passwordValid || !nameValid || !emailValid}
 			id="submitB"
 		/>
 	</div>
 </form>
-
-{#if loginRes.success && nameValid && emailValid && passwordValid}
-	<p>Registration successful. User: {JSON.stringify(loginRes.user)}</p>
-{:else if loginRes.success === false}
-	<p>Login failed.</p>
-{/if}
 
 <style>
 	.error {
