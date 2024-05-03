@@ -5,7 +5,7 @@ export type Links = {
 
 export type User = {
 	name: string;
-	band: string;
+	band?: string;
 	password: string;
 	email: string;
 };
