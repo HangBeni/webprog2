@@ -26,8 +26,7 @@ export async function POST(event: RequestEvent) {
 			theNewUser = await db.insert(users).values({
 				name: formData.name,
 				password: formData.password,
-				email: formData.email,
-				band_id: null
+				email: formData.email
 			}).returning().get();
 		}
 		
@@ -36,14 +35,16 @@ export async function POST(event: RequestEvent) {
 			httpOnly: true,
 			maxAge: 60*60*24*2 //2 napos bejentkezés
 		});
-		return new Response(JSON.stringify({ user: theNewUser, success: true }), {
+
+		return new Response(JSON.stringify(RegistrationStatus.OK), {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' },
 			statusText: 'Successful registration!'
 		});
+
 	} catch (error) {
 		console.error(error);
-		return new Response(JSON.stringify({ success: false }), {
+		return new Response(JSON.stringify(RegistrationStatus.ServerFail), {
 			status: 500,
 			headers: { 'Content-Type': 'application/json' },
 			statusText: 'Auth problem!'
