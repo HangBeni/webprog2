@@ -86,7 +86,6 @@
 		<label for="userBand">Banda</label>
 		<input
 			autoComplete="off"
-			required
 			type="text"
 			name="userBand"
 			id="userBand"
