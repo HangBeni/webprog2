@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { Links } from '$lib/types';
 	import type { LayoutData } from '../../routes/$types';
-	import { type SelectBand } from '$lib/db/schema';
+	import { type SelectBand, type SelectUser} from '$lib/db/schema';
 	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 
 	export const links: Links[] = [
 		{ name: 'Főoldal', link: '/' },
@@ -15,18 +15,23 @@
 	];
 
 	export let data: LayoutData;
-	let bandName:string | undefined;
+	let bandName: string | undefined;
+	let userName: string | undefined;
 	
 	onMount(async () => {
-		const allBand : SelectBand[] = await fetch("/api/band").then(res => res.json());
+		const allBand: SelectBand[] = await fetch('/api/band').then((res) => res.json());
+		const allUser: SelectUser[] = await fetch('/api/user').then((res) => res.json());
+
 		bandName = allBand.find((band) => band.id === data.userBand)?.name;
-	})
+		userName = allUser.find((user) => user.id === data.userID)?.name;
+	});
 	const logOut = async () => {
-		await fetch("/api/login", {
+		await fetch('/api/login', {
 			method: 'DELETE'
 		});
-		goto('/')
-	}
+		invalidateAll();
+		goto('/');
+	};
 	//<i class="fa-solid fa-person"></i> ---> avatar
 </script>
 
@@ -34,17 +39,19 @@
 	<ul>
 		{#each links as link}
 			{#if link.link === '/login' && data.inSession}
-				<li><a href={`/${data.userID}`}> <i class="fa-solid fa-person"></i></a></li>
+				<li><a href={`/${userName}`}> <i class="fa-solid fa-person"></i> {userName}</a></li>
 				{#if data.userBand}
 					<li>
-						<a href={`/${bandName}`}>{bandName}</a>
+						<a href={`/${bandName}`}><i class="fa-brands fa-bandcamp"></i> {bandName}</a>
 					</li>
 				{/if}
 			{:else}
 				<li><a href={link.link}>{link.name}</a></li>
 			{/if}
 		{/each}
-		<li><a data-sveltekit-reload href="/" on:click={logOut}>Log out</a></li>
+		{#if data.inSession}
+			<li><a data-sveltekit-reload href="/" on:click={logOut}>Log out</a></li>
+		{/if}
 	</ul>
 </nav>
 
