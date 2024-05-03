@@ -1,6 +1,6 @@
 import { db } from '$lib/db/db.server';
 import { bands, users, type SelectUser } from '$lib/db/schema';
-import type { User } from '$lib/types';
+import { RegistrationStatus, type User } from '$lib/types';
 import type { RequestEvent } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
@@ -48,4 +48,15 @@ export async function POST(event: RequestEvent) {
 			statusText: 'Auth problem!'
 		});
 	}
+}
+export async function GET() {
+	try {
+        const allUser : SelectUser[] = await db.select().from(users);
+        if(!allUser){
+            return new Response(JSON.stringify(RegistrationStatus.ThereIs), { status: 422 });
+        }
+        return new Response(JSON.stringify(allUser), { status: 200 });
+    } catch (error) {
+        return new Response(JSON.stringify(RegistrationStatus.ServerFail), { status: 500 });
+    }
 }
