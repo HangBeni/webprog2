@@ -38,6 +38,7 @@
 <nav>
 	<ul>
 		{#each links as link}
+			<!-- svelte-ignore empty-block -->
 			{#if link.link === '/login' && data.inSession}
 				<li><a href={`/${userName}`}> <i class="fa-solid fa-person"></i> {userName}</a></li>
 				{#if data.userBand}
@@ -45,6 +46,7 @@
 						<a href={`/myband/${bandName}`}><i class="fa-brands fa-bandcamp"></i> {bandName}</a>
 					</li>
 				{/if}
+			{:else if link.link === '/registration/user' || link.link === '/registration/band' && data.inSession}
 			{:else}
 				<li><a href={link.link}>{link.name}</a></li>
 			{/if}
