@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { invalidateAll } from "$app/navigation";
+	import { page } from "$app/stores";
 
 
 	let content: string;
 
 	async function createPost() {
+		let url = $page.route.id;
 		await fetch('/api/posts', {
 			method: 'Post',
-			body: JSON.stringify(content),
+			body: JSON.stringify({content: content, url:url}),
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json'
