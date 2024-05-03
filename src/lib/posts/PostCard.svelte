@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { Post } from '$lib/types';
 	import { onMount } from 'svelte';
 	import CommentCard from './CommentCard.svelte';
-	import type { InsertComment, SelectComment } from '$lib/db/schema';
+	import type { InsertComment, SelectComment, SelectPost } from '$lib/db/schema';
 
-	export let post: Post;
+	export let post: SelectPost;
 
 	let comments: SelectComment[] = [];
+	
 	let newComment: InsertComment = {
-		author: post.author, //Ezt majd a cookies-ból kell tudni
+		author: post.author, 
 		content:'',
 		created_at: new Date().toDateString(),
 		post_id: post.id
