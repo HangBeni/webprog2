@@ -25,7 +25,7 @@
 	});
 
 	async function handleReg() {
-		const loginRes : RegistrationStatus = await fetch('/api/user', {
+		const loginRes: RegistrationStatus = await fetch('/api/user', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -34,15 +34,14 @@
 		}).then((res) => res.json());
 
 		if (loginRes == RegistrationStatus.OK) {
-			window.location.href = '/' // ahhoz kell így csinálni hogy újra töltsön
-		}else if (loginRes == RegistrationStatus.ServerFail) {
+			window.location.href = '/'; // ahhoz kell így csinálni hogy újra töltsön
+		} else if (loginRes == RegistrationStatus.ServerFail) {
 			alert('Server fail!');
 		}
-		
 	}
 </script>
 
-<form on:submit|preventDefault={() => console.log('Submit')}>
+<form>
 	<div class="inputPlaceholder">
 		<label for="userName">User Name</label>
 		<input
@@ -84,36 +83,17 @@
 		<span id="passwordError" class="error"></span>
 
 		<label for="userBand">Banda</label>
-		<input
-			autoComplete="off"
-			type="text"
-			name="userBand"
-			id="userBand"
-			bind:value={form.band}
-		/>
+		<input autoComplete="off" type="text" name="userBand" id="userBand" bind:value={form.band} />
 
-		<input
+		<button
 			type="button"
-			value={'Regisztráció'}
 			on:click={handleReg}
 			disabled={!passwordValid || !nameValid || !emailValid}
-			id="submitB"
-		/>
+			id="submitB">Regisztráció</button
+		>
 	</div>
 </form>
 
 <style>
-	.error {
-		display: block;
-		font-weight: bold;
-		color: red;
-	}
-	form > .inputPlaceholder {
-		width: 40%;
-		margin-inline: auto;
-	}
-	.inputPlaceholder {
-		display: grid;
-		grid-template-columns: 1fr;
-	}
+	@import '../../styles/login.css';
 </style>
