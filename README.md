@@ -7,10 +7,10 @@
 - Bejelentkezés
 - Postolás **bandák** és **userek** számára
 
-  ## Techstack
+## Techstack
   * SvelteKit
   * Drizzle - sqlite
 
-  ## Tervezet Funkciók
+## Tervezet Funkciók
   + Képek feltöltése
   + Blog különböző zenei műfajokban vagy bandákhoz
