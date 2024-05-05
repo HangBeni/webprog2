@@ -4,6 +4,7 @@ import { posts, type SelectPost } from '$lib/db/schema';
 export async function load({ parent }) {
 	const { inSession } = await parent();
 	const all: SelectPost[] = await db.select().from(posts);
+	all.reverse();
 	return {
 		all,
 		inSession
