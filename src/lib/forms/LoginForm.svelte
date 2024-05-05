@@ -16,15 +16,13 @@
 	let form: User = {
 		name: '',
 		password: '',
-		email: '',
-		band: undefined
+		email: ''
 	};
 
 	onMount(() => {
 		nameErrorSpan = document.getElementById('userNameError');
 		passwordErrorSpan = document.getElementById('passwordError');
 		emailErrorSpan = document.getElementById('emailError');
-
 	});
 
 	async function handleLogin() {
@@ -44,7 +42,7 @@
 		};
 
 		if (regStatus == RegistrationStatus.ThereIs) {
-			window.location.href = '/' // ahhoz kell így csinálni hogy újra töltsön
+			window.location.href = '/'; // ahhoz kell így csinálni hogy újra töltsön
 		} else if (regStatus == RegistrationStatus.NotFound) {
 			nameErrorSpan!.textContent = 'Nincs ilyen user';
 		} else if (regStatus == RegistrationStatus.ServerFail) {
@@ -94,37 +92,15 @@
 		/>
 		<span id="emailError" class="error"></span>
 
-		<label for="userBand">Banda</label>
-		<input
-			autoComplete="off"
-			type="text"
-			name="userBand"
-			id="userBand"
-			bind:value={form.band}
-		/>
-
-		<input
+		<button
 			type="button"
-			value={'Bejentkezés'}
 			on:click={handleLogin}
-			disabled={!passwordValid || !nameValid}
+			disabled={!passwordValid || !nameValid || !emailValid}
 			id="submitB"
-		/>
+		>Bejentkezés</button>
 	</div>
 </form>
 
 <style>
-	.error {
-		display: block;
-		font-weight: bold;
-		color: red;
-	}
-	form > .inputPlaceholder {
-		width: 40%;
-		margin-inline: auto;
-	}
-	.inputPlaceholder {
-		display: grid;
-		grid-template-columns: 1fr;
-	}
+	@import '../../styles/login.css';
 </style>
