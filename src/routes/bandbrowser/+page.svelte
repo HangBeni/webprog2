@@ -20,5 +20,8 @@ onMount(async () => {
 
 
 <style>
-
+main{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));
+}
 </style>
