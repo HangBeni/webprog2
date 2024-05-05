@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import {  RegistrationStatus, type Band } from '$lib/types';
+	import { RegistrationStatus, type Band } from '$lib/types';
 	import { birthValidator, nameValidator } from '$lib/validators';
 	import { onMount } from 'svelte';
 
@@ -34,7 +34,6 @@
 
 		if (regStatus == RegistrationStatus.OK) {
 			goto('/bandbrowser');
-			
 		} else if (regStatus == RegistrationStatus.ServerFail) {
 			alert('Server Fail');
 			band.name = '';
@@ -76,9 +75,8 @@
 		<span id="birthError" class="error"></span>
 
 		<label for="genres">Zsanrák</label>
-		<input
+		<textarea
 			required
-			type="text"
 			name="genres"
 			id="genres"
 			bind:value={band.genre}
@@ -91,11 +89,10 @@
 			required
 			name="backStory"
 			id="backStory"
-			cols="20"
 			rows="10"
 			minlength="30"
 			maxlength="200"
-			placeholder="     Your story"
+			placeholder="Your story"
 			bind:value={band.story}
 		></textarea>
 		<span>(Maximum 200 karakter)</span>
@@ -110,23 +107,32 @@
 			required
 		/> -->
 
-		<button type="submit" id="submitB" disabled={!nameError?.classList.contains("error") && !birthError?.classList.contains("error") 
-													&& !genreError?.classList.contains("error")}> Registration </button>
+		<button
+			type="submit"
+			id="submitB"
+			disabled={!nameError?.classList.contains('error') &&
+				!birthError?.classList.contains('error') &&
+				!genreError?.classList.contains('error')}
+		>
+			Registration
+		</button>
 	</div>
 </form>
 
 <style>
-	.error {
-		display: block;
-		font-weight: bold;
-		color: red;
+	@import '../../styles/login.css';
+	#backStory {
+		width: 25rem;
+		background-color: blueviolet;
+		border-radius: 0.5em;
+		padding-top: 0.3rem;
+		padding-bottom: 0.3rem;
 	}
-	form > .inputPlaceholder {
-		width: 40%;
-		margin-inline: auto;
-	}
-	.inputPlaceholder {
-		display: grid;
-		grid-template-columns: 1fr;
+	#genres {
+		width: 20rem;
+		background-color: blueviolet;
+		border-radius: 0.5em;
+		padding-top: 0.3rem;
+		padding-bottom: 0.3rem;
 	}
 </style>
