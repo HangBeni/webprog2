@@ -7,5 +7,7 @@
 	$: ({all} = data)
 	
 </script>
+{#if data.inSession}
 <Feed {all}/>
+{/if}
 <Footer/>
