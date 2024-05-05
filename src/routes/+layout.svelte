@@ -6,6 +6,7 @@
 
 	export let data: LayoutData;
     
+	import '../styles/index.css'
 </script>
 
 <Nav {data} />
