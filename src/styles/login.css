@@ -1,6 +1,6 @@
 form{
     width: auto;
-    max-width: 70%;
+    max-width: 60%;
     margin: 0 auto;
     background-color: var(--primary-color);
 }
@@ -9,23 +9,31 @@ form{
     position: relative;
     display: grid;
     grid-auto-flow: row;
+    justify-items: center;
+    justify-content: center;
     width: 75%;
     margin-inline: auto;
     margin-top: 2.5rem;
-    padding-bottom: 2rem ;
-
+    padding-block: 3rem ;
+    border-radius: 2rem;
     background-color: var(--secondary-color);
 }
 
 .inputPlaceholder > label {
+    width: fit-content;
     margin-right: auto;
     margin-top: 1.5rem;
-    margin-left: 5%;
+    margin-left: 2%;
 }
-.inputPlaceholder > input{
-    width: 40%;
+.inputPlaceholder > input, button{
+    width: 18rem;
     background-color: blueviolet;
     border-radius: .5em;
-    margin-left: 5%;
-
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+button{
+    margin-top: 0.75rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
 }
