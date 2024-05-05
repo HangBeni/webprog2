@@ -45,7 +45,6 @@ export async function POST(event: RequestEvent) {
 
 		const { userID, bandID } = JSON.parse(session) as { userID: number; bandID: number | null };
 		let writer: { name: string; } | undefined;
-		console.log(data.url);
 		if (!bandID || data.url === '/' || data.url === '/[user]') {
 			writer = await db.query.users.findFirst({
 				where: eq(users.id, userID),
