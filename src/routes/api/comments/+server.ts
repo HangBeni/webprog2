@@ -1,6 +1,7 @@
 import { db } from '$lib/db/db.server';
-import { comments, type InsertComment, type SelectComment } from '$lib/db/schema';
+import { bands, comments, type InsertComment, type SelectComment } from '$lib/db/schema';
 import type { RequestEvent } from '@sveltejs/kit';
+import { eq } from 'drizzle-orm';
 
 export async function GET() {
 	try {
@@ -16,9 +17,28 @@ export async function GET() {
 
 export async function POST(event: RequestEvent) {
 	try {
-		const commentForPost : InsertComment = await event.request.json();
+		const commentForPost : {comment:InsertComment , url:string} = await event.request.json();
+		const session = event.cookies.get('session');
 
-		await db.insert(comments).values(commentForPost).execute();
+		if (!session) {
+			// This is not possible actually
+			return new Response('Failed posting', {
+				status: 500,
+				statusText: 'No posting!',
+				headers: { 'Content-Type': 'application/json' }
+			});
+		}
+		
+		const { userID, bandID } = JSON.parse(session) as { userID: number; bandID: number | null };
+		if (!bandID || commentForPost.url === '/' || commentForPost.url === '/[user]') {
+			await db.insert(comments).values(commentForPost.comment).execute();
+		}else if(bandID){
+			const band = await db.query.bands.findFirst({where: eq(bands.id, bandID), columns: {name:true}})
+			commentForPost.comment.author = band!.name;
+			await db.insert(comments).values(commentForPost.comment).execute();
+		}
+
+		
 		return await new Response('Success', { status: 200 });
 	} catch (error) {
 		return await new Response('Internal Server Error', { status: 500 });
