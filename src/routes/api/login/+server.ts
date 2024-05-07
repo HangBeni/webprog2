@@ -1,6 +1,7 @@
 import { db } from '$lib/db/db.server';
 import { RegistrationStatus, type User } from '$lib/types';
 import { redirect, type RequestEvent } from '@sveltejs/kit';
+import * as crypto from 'crypto';
 
 export async function POST(event: RequestEvent) {
 	try {
@@ -9,7 +10,7 @@ export async function POST(event: RequestEvent) {
 		const isThere = await db.query.users.findFirst({
 			where: (users, { eq }) =>
 				eq(users.name, loggerUser.name) &&
-				eq(users.password, loggerUser.password) &&
+				eq(users.password, crypto.createHash('sha256').update(loggerUser.password).digest('hex')) &&
 				eq(users.email, loggerUser.email)
 		});
 

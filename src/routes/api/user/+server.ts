@@ -2,12 +2,14 @@ import { db } from '$lib/db/db.server';
 import { bands, users, type SelectUser } from '$lib/db/schema';
 import { RegistrationStatus, type User } from '$lib/types';
 import type { RequestEvent } from '@sveltejs/kit';
+import * as crypto from 'crypto';
 import { eq } from 'drizzle-orm';
 
 export async function POST(event: RequestEvent) {
 	try {
 		const formData: User = await event.request.json();
 		let theNewUser : SelectUser;
+		
 		if(formData.band){
 		const bandIdx = await db
 			.select({ id: bands.id })
@@ -18,7 +20,7 @@ export async function POST(event: RequestEvent) {
 			
 			theNewUser = await db.insert(users).values({
 				name: formData.name,
-				password: formData.password,
+				password: crypto.createHash('sha256').update(formData.password).digest('hex'),
 				email: formData.email,
 				band_id: id
 			}).returning().get();
