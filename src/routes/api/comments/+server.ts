@@ -34,12 +34,11 @@ export async function POST(event: RequestEvent) {
 		if (!bandID || commentForPost.url === '/' || commentForPost.url === '/[user]') {
 			const user = await db.query.users.findFirst({where: eq(users.id, userID), columns: {name:true}})
 			commentForPost.comment.author = user!.name;
-			await db.insert(comments).values(commentForPost.comment).execute();
 		}else if(bandID){
 			const band = await db.query.bands.findFirst({where: eq(bands.id, bandID), columns: {name:true}})
 			commentForPost.comment.author = band!.name;
-			await db.insert(comments).values(commentForPost.comment).execute();
 		}
+		await db.insert(comments).values(commentForPost.comment).execute();
 
 		
 		return await new Response('Success', { status: 200 });
