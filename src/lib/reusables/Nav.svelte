@@ -28,8 +28,8 @@
 		await fetch('/api/login', {
 			method: 'DELETE'
 		});
-		invalidateAll();
 		goto('/');
+		invalidateAll();
 	};
 </script>
 
