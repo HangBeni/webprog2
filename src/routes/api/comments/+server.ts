@@ -1,5 +1,5 @@
 import { db } from '$lib/db/db.server';
-import { bands, comments, type InsertComment, type SelectComment } from '$lib/db/schema';
+import { bands, comments, users, type InsertComment, type SelectComment } from '$lib/db/schema';
 import type { RequestEvent } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
@@ -30,7 +30,10 @@ export async function POST(event: RequestEvent) {
 		}
 		
 		const { userID, bandID } = JSON.parse(session) as { userID: number; bandID: number | null };
+
 		if (!bandID || commentForPost.url === '/' || commentForPost.url === '/[user]') {
+			const user = await db.query.users.findFirst({where: eq(users.id, userID), columns: {name:true}})
+			commentForPost.comment.author = user!.name;
 			await db.insert(comments).values(commentForPost.comment).execute();
 		}else if(bandID){
 			const band = await db.query.bands.findFirst({where: eq(bands.id, bandID), columns: {name:true}})
